@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -12,14 +12,19 @@
     "@better-auth/mongo-adapter": "^1.6.14",
     "@heroui/react": "^3.1.0",
     "@heroui/styles": "^3.1.0",
+    "@stripe/stripe-js": "^9.8.0",
     "better-auth": "^1.6.14",
+    "framer-motion": "^12.40.0",
     "kysely": "^0.28.17",
     "lucide-react": "^1.17.0",
     "mongodb": "^7.2.0",
     "motion": "^12.40.0",
-    "next": "16.2.7",
+    "next": "^16.2.7",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-tab-set": "^2.1.169",
+    "stripe": "^22.2.0",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@gravity-ui/icons": "^2.18.0",

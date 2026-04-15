@@ -2,10 +2,10 @@
 import RegisterCompanyForm from "@/components/dashboard/CompanyAddForm";
 import CompanyCard from "@/components/dashboard/CompnayCard";
 import { getCompnay } from "@/lib/api/company";
-import { session } from "@/lib/core/session";
+import { userSession } from "@/lib/core/session";
 
 const ProfilePage = async () => {
-  const recruiter = await session();
+  const recruiter = userSession();
   const recruiterId = recruiter?.id;
   
   // Fetch companies array

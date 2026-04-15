@@ -12,7 +12,7 @@ export default function Navbar() {
   const router = useRouter();
 
   const navLinks = [
-    { name: "Browse Jobs", href: "/jobs" },
+    { name: "Browse Jobs", href: "/allJobs" },
     { name: "Company", href: "/company" },
     { name: "Pricing", href: "/pricing" },
   ];

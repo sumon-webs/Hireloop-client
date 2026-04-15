@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Input, Button } from "@heroui/react";
 import { Eye, EyeSlash } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -19,6 +19,9 @@ export default function SignInPage() {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -54,7 +57,6 @@ export default function SignInPage() {
       const { error } = await authClient.signIn.email({
         email: formData.email,
         password: formData.password,
-        callbackURL: "/",
       });
 
       if (error) {
@@ -62,7 +64,7 @@ export default function SignInPage() {
         return;
       }
 
-      router.push("/");
+      router.push(redirectTo);
       router.refresh();
     } catch (err) {
       setError(err.message || "Something went wrong");
@@ -148,7 +150,7 @@ export default function SignInPage() {
 
         <p className="text-center text-sm text-zinc-400 mt-6">
           Don't have an account?{" "}
-          <Link href="/sign-up" className="text-primary hover:underline">
+          <Link href={`/sign-up?redirect=${redirectTo}`} className="text-primary hover:underline">
             Sign Up
           </Link>
         </p>

@@ -2,10 +2,9 @@ import React from "react";
 import { getJobs } from "@/lib/api/jobs";
 import JobsTable from "@/components/dashboard/JobTable";
 import { getCompnay } from "@/lib/api/company"; // আপনার ফাইলের বানান অনুযায়ী রাখলাম
-import { session } from "@/lib/core/session";
-
+import { userSession } from "@/lib/core/session";
 const JobsPage = async () => {
-  const user = await session();
+  const user = await userSession();
   const id = user?.id;
   
   // কোম্পানির ডেটা নিয়ে আসা হচ্ছে
@@ -32,6 +31,8 @@ const JobsPage = async () => {
 
       {/* HeroUI টেবিল কম্পোনেন্টে জবের ডেটা পাস করা হচ্ছে */}
       <JobsTable jobs={jobs} />
+      
+
     </div>
   );
 };

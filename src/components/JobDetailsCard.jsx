@@ -1,7 +1,7 @@
 import { CircleDollar, Briefcase, Pin, ArrowLeft, Layers, Persons } from "@gravity-ui/icons";
 import { Card, Link } from "@heroui/react";
 
-export default function JobDetails({ job }) {
+export default async function JobDetails({id, job }) {
   // যদি কোনো কারণে জব ডেটা লোড না হয়
   if (!job) {
     return (
@@ -112,8 +112,7 @@ export default function JobDetails({ job }) {
             </div>
             
             <Link
-              aria-label={`Apply for ${job.title}`}
-              href={`/jobs/${job._id}/apply`}
+              href={`/allJobs/${id}/apply`}
               className="w-full sm:w-auto bg-white text-black hover:bg-zinc-200 px-6 py-3 rounded-xl font-medium text-center transition-colors shadow-lg"
             >
               Apply For This Job

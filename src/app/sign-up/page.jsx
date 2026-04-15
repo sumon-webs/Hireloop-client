@@ -12,7 +12,7 @@ import {
 } from "@heroui/react";
 import { Eye, EyeSlash } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,6 +23,9 @@ export default function SignUpPage() {
     email: "",
     password: "",
   });
+
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
 
   // ✅ ROLE STATE ADDED
   const [role, setRole] = useState("seeker");
@@ -59,6 +62,8 @@ export default function SignUpPage() {
       return setError("Password must be at least 6 characters");
     }
 
+    const plan = role === "seeker" ? "seeker_free" : "recruiter_free";
+
     try {
       setLoading(true);
 
@@ -69,6 +74,7 @@ export default function SignUpPage() {
 
         // ✅ ROLE SENT HERE
         role: role,
+        plan
       });
 
       if (error) {
@@ -76,7 +82,7 @@ export default function SignUpPage() {
         return;
       }
       if (!error) {
-        router.push("/sign-in");
+        router.push(redirectTo);
       }
       setSuccess("Account created successfully!");
 
@@ -218,7 +224,10 @@ export default function SignUpPage() {
         {/* LOGIN LINK */}
         <p className="text-center text-sm text-zinc-400 mt-6">
           Already have an account?{" "}
-          <Link href="/sign-in" className="text-primary hover:underline">
+          <Link
+            href={`/sign-in?redirect=${redirectTo}`}
+            className="text-primary hover:underline"
+          >
             Login
           </Link>
         </p>

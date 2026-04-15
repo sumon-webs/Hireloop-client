@@ -48,7 +48,7 @@ export function JobCard({ job }) {
       <Card.Footer className="p-0">
         <Link
           aria-label={`Apply Now for ${job?.title || "this position"}`}
-          href={`/jobs/${job?._id}`}
+          href={`/allJobs/${job?._id}`}
           className="text-white hover:text-zinc-300 text-sm font-medium flex items-center gap-2 transition-colors group"
         >
           Apply Now
