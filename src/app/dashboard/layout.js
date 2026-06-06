@@ -2,7 +2,7 @@ import { DashBaordLayouHome } from "@/components/dashboard/DashBoard";
 
 const DashBoardLayout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen ">
       {/* Mobile Navbar */}
       <div className="md:hidden sticky top-0 z-50 border-b border-default-200 bg-background px-4 py-3">
         <DashBaordLayouHome mobile />
