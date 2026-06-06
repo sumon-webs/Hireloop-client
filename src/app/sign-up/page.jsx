@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Input, Button } from "@heroui/react";
+import {
+  Input,
+  Button,
+  Description,
+  Label,
+  Radio,
+  RadioGroup,
+} from "@heroui/react";
 import { Eye, EyeSlash } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
 
@@ -14,6 +21,9 @@ export default function SignUpPage() {
     email: "",
     password: "",
   });
+
+  // ✅ ROLE STATE ADDED
+  const [role, setRole] = useState("seeker");
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -35,16 +45,10 @@ export default function SignUpPage() {
     setError("");
     setSuccess("");
 
-    if (!formData.name.trim()) {
-      return setError("Name is required");
-    }
-
-    if (!formData.email.trim()) {
-      return setError("Email is required");
-    }
+    if (!formData.name.trim()) return setError("Name is required");
+    if (!formData.email.trim()) return setError("Email is required");
 
     const emailRegex = /\S+@\S+\.\S+/;
-
     if (!emailRegex.test(formData.email)) {
       return setError("Please enter a valid email");
     }
@@ -60,7 +64,11 @@ export default function SignUpPage() {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        callbackURL: "/",
+
+        // ✅ ROLE SENT HERE
+        role: role,
+
+        callbackURL: "/sign-in",
       });
 
       if (error) {
@@ -76,13 +84,14 @@ export default function SignUpPage() {
         password: "",
       });
 
-      console.log(data);
+      setRole("seeker");
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <section className="min-h-screen flex items-center justify-center bg-zinc-950 px-4">
       <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl p-8 shadow-xl">
@@ -94,12 +103,14 @@ export default function SignUpPage() {
           Join our platform today
         </p>
 
+        {/* ERROR */}
         {error && (
           <div className="mt-5 rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-3 text-red-400 text-sm">
             {error}
           </div>
         )}
 
+        {/* SUCCESS */}
         {success && (
           <div className="mt-5 rounded-lg bg-green-500/10 border border-green-500/30 px-4 py-3 text-green-400 text-sm">
             {success}
@@ -107,6 +118,7 @@ export default function SignUpPage() {
         )}
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+          {/* NAME */}
           <Input
             fullWidth
             label="Full Name"
@@ -118,6 +130,7 @@ export default function SignUpPage() {
             onChange={handleChange}
           />
 
+          {/* EMAIL */}
           <Input
             fullWidth
             label="Email"
@@ -130,6 +143,7 @@ export default function SignUpPage() {
             onChange={handleChange}
           />
 
+          {/* PASSWORD FIXED TOGGLE */}
           <Input
             fullWidth
             label="Password"
@@ -143,7 +157,7 @@ export default function SignUpPage() {
             endContent={
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowPassword((prev) => !prev)}
                 className="outline-none"
               >
                 {showPassword ? (
@@ -155,6 +169,39 @@ export default function SignUpPage() {
             }
           />
 
+          {/* ROLE (FIXED) */}
+          {/* ROLE */}
+          <div className="flex flex-col gap-4">
+            <Label>Role</Label>
+
+            <RadioGroup
+              selectedValue={role}
+              onChange={(value) => setRole(value)}
+              orientation="horizontal"
+            >
+              <Radio value="seeker">
+                <Radio.Control>
+                  <Radio.Indicator />
+                </Radio.Control>
+                <Radio.Content>
+                  <Label>Seeker</Label>
+                  <Description>Find jobs</Description>
+                </Radio.Content>
+              </Radio>
+
+              <Radio value="recruiter">
+                <Radio.Control>
+                  <Radio.Indicator />
+                </Radio.Control>
+                <Radio.Content>
+                  <Label>Recruiter</Label>
+                  <Description>Post jobs & hire</Description>
+                </Radio.Content>
+              </Radio>
+            </RadioGroup>
+          </div>
+
+          {/* SUBMIT */}
           <Button
             type="submit"
             color="primary"
@@ -166,6 +213,7 @@ export default function SignUpPage() {
           </Button>
         </form>
 
+        {/* LOGIN LINK */}
         <p className="text-center text-sm text-zinc-400 mt-6">
           Already have an account?{" "}
           <Link href="/sign-in" className="text-primary hover:underline">

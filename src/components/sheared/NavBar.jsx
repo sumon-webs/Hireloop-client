@@ -33,7 +33,7 @@ export default function Navbar() {
 
   return (
     <header className="w-full px-4 py-6">
-      <nav className="mx-auto container">
+      <nav >
         <div className="flex items-center justify-between rounded-3xl border border-white/10 px-6 py-4 backdrop-blur-xl">
           {/* Logo */}
           <Link href="/" className="flex items-center">
