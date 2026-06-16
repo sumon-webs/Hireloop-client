@@ -24,12 +24,16 @@ export default function RootLayout({ children }) {
       lang="en"
       data-theme="dark"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning /* <--- এখানে যোগ করুন */
     >
-      <body className="min-h-full flex flex-col">
+      <body 
+        className="min-h-full flex flex-col"
+        suppressHydrationWarning /* <--- এখানেও যোগ করুন */
+      >
         <Navbar/>
         {children}
         <Footer/>
-        </body>
+      </body>
     </html>
   );
 }

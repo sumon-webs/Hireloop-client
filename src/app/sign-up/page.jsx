@@ -12,9 +12,11 @@ import {
 } from "@heroui/react";
 import { Eye, EyeSlash } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -67,15 +69,15 @@ export default function SignUpPage() {
 
         // ✅ ROLE SENT HERE
         role: role,
-
-        callbackURL: "/sign-in",
       });
 
       if (error) {
         setError(error.message || "Failed to create account");
         return;
       }
-
+      if (!error) {
+        router.push("/sign-in");
+      }
       setSuccess("Account created successfully!");
 
       setFormData({
@@ -154,7 +156,7 @@ export default function SignUpPage() {
             value={formData.password}
             onChange={handleChange}
             type={showPassword ? "text" : "password"}
-            endContent={
+            endcontent={
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}

@@ -111,7 +111,7 @@ export default function SignInPage() {
             value={formData.password}
             onChange={handleChange}
             type={showPassword ? "text" : "password"}
-            endContent={
+            endcontent={
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
