@@ -11,14 +11,27 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
   const navLinks = [
     { name: "Browse Jobs", href: "/allJobs" },
     { name: "Company", href: "/company" },
     { name: "Pricing", href: "/pricing" },
   ];
 
-  const { data: session } = authClient.useSession();
-  const user = session?.user;
+  const dashboardLinks = {
+    seeker: "/dashboard/seeker",
+    recruiter: "/dashboard/recruiter",
+    admin:'/dashboard/admin'
+  };
+
+  if (user?.email) {
+    navLinks.push({
+      name: "DashBoard",
+      href: dashboardLinks[user?.role || "seeker"],
+    });
+  }
 
   // ✅ FIXED LOGOUT
   const handleLogout = async () => {
@@ -33,7 +46,7 @@ export default function Navbar() {
 
   return (
     <header className="w-full px-4 py-6">
-      <nav >
+      <nav>
         <div className="flex items-center justify-between rounded-3xl border border-white/10 px-6 py-4 backdrop-blur-xl">
           {/* Logo */}
           <Link href="/" className="flex items-center">
@@ -63,11 +76,7 @@ export default function Navbar() {
               <div className="flex items-center gap-3">
                 <span className="text-sm text-white">Hi, {user.name}</span>
 
-                <Button
-                  size="sm"
-                  color="danger"
-                  onClick={handleLogout}
-                >
+                <Button size="sm" color="danger" onClick={handleLogout}>
                   Log Out
                 </Button>
               </div>

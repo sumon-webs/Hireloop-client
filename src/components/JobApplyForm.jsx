@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useState } from "react"; // 1. Imported useState
+import React, { useState } from "react";
 import { Input, Button, Card } from "@heroui/react";
 import { postApplication } from "@/lib/action/application";
 import { useRouter } from "next/navigation";
 
-const JobApplyForm = ({ jobId, user }) => {
-
-  const router = useRouter()
-  // 2. Defined status state to track loading and error/success messages
+const JobApplyForm = ({ job, user }) => {
+  const router = useRouter();
   const [status, setStatus] = useState({
     loading: false,
     message: "",
@@ -17,8 +15,6 @@ const JobApplyForm = ({ jobId, user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Set loading state
     setStatus({ loading: true, message: "", type: "" });
 
     const formData = new FormData(e.target);
@@ -26,9 +22,12 @@ const JobApplyForm = ({ jobId, user }) => {
     const applicationData = {
       ...applyData,
       seekerId: user.id,
-      jobId: jobId,
+      jobId: job?._id,
+      compnayName: job?.companyName,
+      jobTitle: job?.title,
+      jobType: job?.jobType,
     };
-
+    
     try {
       const data = await postApplication(applicationData);
       if (data?.acknowledged) {
@@ -37,11 +36,8 @@ const JobApplyForm = ({ jobId, user }) => {
           message: "Application submitted successfully!",
           type: "success",
         });
-        
-        // 3. Show a quick alert and reload the page immediately
         alert("Application submitted successfully!");
-        router.refresh()
-        
+        router.refresh();
       } else {
         throw new Error(data?.error || "Failed to submit application");
       }
@@ -57,7 +53,6 @@ const JobApplyForm = ({ jobId, user }) => {
   return (
     <Card className="max-w-xl mx-auto">
       <div className="p-6">
-        {/* 4. Display Error Message if something goes wrong */}
         {status.type === "error" && (
           <div className="mb-4 p-3 bg-danger-50 text-danger text-sm rounded-lg border border-danger-200">
             {status.message}
@@ -65,8 +60,9 @@ const JobApplyForm = ({ jobId, user }) => {
         )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {/* Changed 'isRequired' to 'isRequired={true}' or ensured component support */}
           <Input
-            isRequired
+            isRequired={true}
             label="Full Name"
             name="fullName"
             placeholder="Enter your name"
@@ -74,7 +70,7 @@ const JobApplyForm = ({ jobId, user }) => {
           />
 
           <Input
-            isRequired
+            isRequired={true}
             type="email"
             label="Email"
             name="email"
@@ -82,14 +78,14 @@ const JobApplyForm = ({ jobId, user }) => {
           />
 
           <Input
-            isRequired
+            isRequired={true}
             label="Portfolio URL"
             name="portfolio"
             placeholder="https://your-portfolio.com"
           />
 
           <Input
-            isRequired
+            isRequired={true}
             label="Resume Link"
             name="resume"
             placeholder="https://your-resume-link.com"
@@ -107,7 +103,6 @@ const JobApplyForm = ({ jobId, user }) => {
             />
           </div>
 
-          {/* 5. Added isLoading state to the button to prevent double submissions */}
           <Button 
             type="submit" 
             color="primary" 

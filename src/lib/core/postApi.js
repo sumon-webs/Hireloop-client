@@ -2,15 +2,15 @@
 
 const uri = process.env.NEXT_PUBLIC_URI;
 
-export const createPost = async (path,postData) => {
-  console.log("Hit", postData)
+export const createPost = async (path,PostData, method='POST') => {
+  console.log("Hit", PostData)
   try {
     const res = await fetch(`${uri}${path}`, {
-      method: "POST",
+      method: method,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(postData),
+      body: JSON.stringify(PostData),
       cache: "no-store",
     });
 

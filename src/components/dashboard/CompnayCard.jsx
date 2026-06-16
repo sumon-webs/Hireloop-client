@@ -34,7 +34,7 @@ export default function CompanyCard({ company }) {
         </div>
         
         <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-950/50 text-emerald-400 border border-emerald-800/60 uppercase tracking-wider">
-          Approved
+         {company.status}
         </span>
       </Card.Header>
 

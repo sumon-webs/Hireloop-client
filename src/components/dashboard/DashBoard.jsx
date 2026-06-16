@@ -1,3 +1,4 @@
+import { userSession } from "@/lib/core/session";
 import {
   Bars,
   CircleLetterJ,
@@ -5,12 +6,74 @@ import {
   Gear,
   House,
   Person,
+  PersonGear,
 } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
+import { Bookmark, Briefcase, Building, CreditCard, FileText, Settings, Wallet } from "lucide-react";
 import Link from "next/link";
 
-export function DashBaordLayouHome({ mobile = false }) {
-  const navItems = [
+export async function DashBaordLayouHome({ mobile = false }) {
+  const user = await userSession();
+  const adminNavLinks = [
+    {
+      icon: Person,
+      label: "Users",
+      href: "/dashboard/admin/users",
+    },
+    {
+      icon: Building,
+      label: "Companies",
+      href: "/dashboard/admin/companies",
+    },
+    {
+      icon: Briefcase,
+      label: "Jobs",
+      href: "/dashboard/admin/jobs",
+    },
+    {
+      icon: Wallet,
+      label: "Payments",
+      href: "/dashboard/admin/payments",
+    },
+    {
+      icon: Settings,
+      label: "Settings",
+      href: "/dashboard/admin/settings",
+    },
+  ];
+  const seekerNavsLinks = [
+    {
+      icon: House,
+      label: "Home",
+      href: "/dashboard/seeker",
+    },
+    {
+      icon: CircleLetterJ,
+      label: "Jobs",
+      href: "/dashboard/seeker/jobs",
+    },
+    {
+      icon: Bookmark, // Assuming you have a bookmark/saved icon available
+      label: "Saved Jobs",
+      href: "/dashboard/seeker/saved-jobs",
+    },
+    {
+      icon: FileText, // Assuming you have an icon for applications
+      label: "Applications",
+      href: "/dashboard/seeker/applications",
+    },
+    {
+      icon: CreditCard, // Assuming you have a billing/payment icon
+      label: "Billing",
+      href: "/dashboard/seeker/billing",
+    },
+    {
+      icon: Settings,
+      label: "Settings",
+      href: "/dashboard/seeker/settings",
+    },
+  ];
+  const recruiterNavLinks = [
     {
       icon: House,
       label: "Home",
@@ -37,6 +100,14 @@ export function DashBaordLayouHome({ mobile = false }) {
       href: "/dashboard/settings",
     },
   ];
+
+  const navLinksMap = {
+    seeker: seekerNavsLinks,
+    recruiter: recruiterNavLinks,
+    admin: adminNavLinks
+  };
+
+  const navItems = navLinksMap[user?.role];
 
   const SidebarContent = () => (
     <div className="flex h-full flex-col p-4">

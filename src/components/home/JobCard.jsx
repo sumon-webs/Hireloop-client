@@ -8,9 +8,10 @@ export function JobCard({ job }) {
       <div>
         {/* Header Section */}
         <Card.Header className="flex flex-col gap-2 items-start p-0">
-          <Card.Title className="text-2xl font-medium text-white tracking-tight">
-            {job?.title || "Job Title"}
+          <Card.Title className="text-3xl font-medium text-white tracking-tight">
+            {job?.companyName || "Job Title"}
           </Card.Title>
+          <h1>Position: {job?.title}</h1>
           <Card.Description className="text-zinc-500 text-sm leading-relaxed line-clamp-2">
             {job?.description || "No description available for this role."}
           </Card.Description>

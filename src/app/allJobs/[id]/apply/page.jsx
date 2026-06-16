@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { userSession } from "@/lib/core/session";
 import { getPlans } from "@/lib/api/plans";
+import { getJobDetials } from "@/lib/api/jobs";
 
 const ApplyPage = async ({ params }) => {
   const { id } = await params;
@@ -13,7 +14,8 @@ const ApplyPage = async ({ params }) => {
   if (!user) {
     redirect(`/sign-in?redirect=/allJobs/${id}/apply`);
   }
-
+  
+  const job = await getJobDetials(id)
   // ২. রোল চেক: ইউজার যদি 'seeker' না হয়, তবে তাকে অ্যাক্সেস দেওয়া হবে না
   if (user.role !== "seeker") {
     return (
@@ -34,8 +36,6 @@ const ApplyPage = async ({ params }) => {
 
   const plan = await getPlans(user?.plan);
   const seekerId = user.id;
-  console.log(user?.plan)
-console.log(plan)
   // ৩. ইউজারের বর্তমান অ্যাপ্লিকেশন সংখ্যা ফেচ করা
   const applications = await getApplications(seekerId);
 
@@ -75,7 +75,7 @@ console.log(plan)
         </p>
       </div>
 
-      <JobApplyForm  jobId={id} user={user} />
+      <JobApplyForm  job={job} user={user} />
     </div>
   );
 };

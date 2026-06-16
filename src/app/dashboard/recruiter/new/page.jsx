@@ -6,12 +6,10 @@ import { userSession } from "@/lib/core/session"
 const RecruiterNewJobPage = async() => {
   const user = await userSession()
   const id = user?.id
-  const copmanys= await getCompnay(id)
+  const copmany= await getCompnay(id)
   return (
     <div>
-        {
-          copmanys.map(company =><RecruiterJobAdd company={company}/>)
-        }
+      <RecruiterJobAdd company={copmany}/>
     </div>
   )
 }

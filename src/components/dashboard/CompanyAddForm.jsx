@@ -14,7 +14,7 @@ import {
 import { postCompnay } from "@/lib/action/compnanys";
 import { useRouter } from "next/navigation";
 
-export default function RegisterCompanyForm({ recruiterId }) {
+export default function RegisterCompanyForm({company, recruiterId }) {
   const router = useRouter()
   // Form input states
   const [formData, setFormData] = useState({
@@ -118,9 +118,9 @@ export default function RegisterCompanyForm({ recruiterId }) {
       const companyData = {
         ...formData,
         recruiterId: recruiterId,
+        status:company && company.status ? company.status : 'pending'
       };
       const data = await postCompnay(companyData);
-
       // Simulate API latency
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
